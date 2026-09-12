@@ -41,7 +41,7 @@
 
 
 
-    <!-- CONNECTION -->
+    <!-- CONNECTION INFORMATION -->
 
     <div class="card">
 
@@ -127,7 +127,62 @@
 
 
 
-    <!-- BACK -->
+    <!-- PUBLIC IP -->
+
+    <div class="card">
+
+        <div class="icon">📍</div>
+
+        <h2>Public IP</h2>
+
+        <p>
+            Menampilkan IP publik koneksi internet.
+        </p>
+
+        <div id="publicIP" class="result-box">
+            Belum dicek.
+        </div>
+
+        <button onclick="getPublicIP()">
+            🌐 Check IP
+        </button>
+
+    </div>
+
+
+
+    <!-- DNS LOOKUP -->
+
+    <div class="card">
+
+        <div class="icon">🔍</div>
+
+        <h2>DNS Lookup</h2>
+
+        <p>
+            Masukkan domain untuk melihat informasi DNS.
+        </p>
+
+        <input
+            type="text"
+            id="dnsHost"
+            placeholder="contoh.com"
+            style="width:100%; padding:12px; margin:15px 0;"
+        >
+
+        <button onclick="dnsLookup()">
+            🔍 Lookup
+        </button>
+
+        <div id="dnsResult" class="result-box">
+            Belum ada hasil.
+        </div>
+
+    </div>
+
+
+
+    <!-- BACK TO DASHBOARD -->
 
     <div class="card">
 
@@ -152,7 +207,7 @@
 <footer>
 
     <p>
-        IT Support Toolkit v1.1
+        IT Support Toolkit v1.2
     </p>
 
 </footer>
