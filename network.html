@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,66 +17,149 @@
     <p>IT Support Network Diagnostic</p>
 </header>
 
+
 <main class="dashboard">
 
-    <div class="card">
-        <div class="icon">📡</div>
-        <h2>Ping Test</h2>
 
-        <p>Masukkan alamat IP atau hostname.</p>
-
-        <input
-            type="text"
-            id="host"
-            placeholder="Contoh: 192.168.1.1"
-            style="width:100%; padding:12px; margin:15px 0;"
-        >
-
-        <button onclick="pingInfo()">
-            🔍 Test
-        </button>
-
-        <div id="result" style="margin-top:15px;"></div>
-    </div>
-
+    <!-- INTERNET STATUS -->
 
     <div class="card">
+
         <div class="icon">🌍</div>
 
-        <h2>Network Information</h2>
+        <h2>Internet Status</h2>
 
-        <p>
-            Gunakan halaman ini untuk melihat informasi
-            koneksi jaringan dari perangkat.
-        </p>
+        <div id="internetStatus" class="status-box">
+            🔄 Checking...
+        </div>
 
-        <button onclick="showNetworkInfo()">
-            📋 Show Information
+        <button onclick="checkInternet()">
+            🔄 Check Again
         </button>
 
-        <div id="networkInfo" style="margin-top:15px;"></div>
     </div>
 
 
+
+    <!-- CONNECTION -->
+
     <div class="card">
+
+        <div class="icon">📡</div>
+
+        <h2>Connection Information</h2>
+
+        <div id="connectionInfo">
+
+            <p>
+                <strong>Status:</strong>
+                <span id="onlineStatus">Checking...</span>
+            </p>
+
+            <p>
+                <strong>Connection:</strong>
+                <span id="connectionType">-</span>
+            </p>
+
+            <p>
+                <strong>Downlink:</strong>
+                <span id="downlink">-</span>
+            </p>
+
+            <p>
+                <strong>RTT:</strong>
+                <span id="rtt">-</span>
+            </p>
+
+        </div>
+
+        <button onclick="showConnectionInfo()">
+            📋 Refresh Information
+        </button>
+
+    </div>
+
+
+
+    <!-- LATENCY TEST -->
+
+    <div class="card">
+
+        <div class="icon">⚡</div>
+
+        <h2>Latency Test</h2>
+
+        <p>
+            Mengukur waktu respon koneksi ke GitHub Pages.
+        </p>
+
+        <div id="latencyResult" class="result-box">
+            Belum ada pengujian.
+        </div>
+
+        <button onclick="testLatency()">
+            ⚡ Start Test
+        </button>
+
+    </div>
+
+
+
+    <!-- NETWORK SUMMARY -->
+
+    <div class="card">
+
+        <div class="icon">📋</div>
+
+        <h2>Network Summary</h2>
+
+        <div id="summary">
+
+            <p>Belum ada data.</p>
+
+        </div>
+
+        <button onclick="copySummary()">
+            📋 Copy Result
+        </button>
+
+    </div>
+
+
+
+    <!-- BACK -->
+
+    <div class="card">
+
         <div class="icon">⬅️</div>
 
         <h2>Back to Dashboard</h2>
 
-        <p>Kembali ke halaman utama.</p>
+        <p>
+            Kembali ke halaman utama IT Support Toolkit.
+        </p>
 
         <button onclick="location.href='index.html'">
             🏠 Dashboard
         </button>
+
     </div>
+
 
 </main>
 
+
 <footer>
-    <p>IT Support Toolkit v1.0</p>
+
+    <p>
+        IT Support Toolkit v1.1
+    </p>
+
 </footer>
+
 
 <script src="js/app.js"></script>
 
 </body>
+
 </html>
