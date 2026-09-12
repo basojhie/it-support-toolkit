@@ -1,30 +1,31 @@
 console.log("IT Support Toolkit loaded successfully.");
 
-
 // ========================================
 // INTERNET STATUS
 // ========================================
 
 function checkInternet() {
 
-    const status = document.getElementById("internetStatus");
+```
+const status =
+    document.getElementById("internetStatus");
 
-    if (!status) return;
+if (!status) return;
 
-    if (navigator.onLine) {
+if (navigator.onLine) {
 
-        status.innerHTML =
-            "🟢 <strong>ONLINE</strong><br>Internet connection detected.";
+    status.innerHTML =
+        "🟢 <strong>ONLINE</strong><br>Internet connection detected.";
 
-    } else {
+} else {
 
-        status.innerHTML =
-            "🔴 <strong>OFFLINE</strong><br>No internet connection detected.";
-
-    }
+    status.innerHTML =
+        "🔴 <strong>OFFLINE</strong><br>No internet connection detected.";
 
 }
+```
 
+}
 
 // ========================================
 // CONNECTION INFORMATION
@@ -32,52 +33,71 @@ function checkInternet() {
 
 function showConnectionInfo() {
 
-    const online = document.getElementById("onlineStatus");
-    const type = document.getElementById("connectionType");
-    const downlink = document.getElementById("downlink");
-    const rtt = document.getElementById("rtt");
+```
+const online =
+    document.getElementById("onlineStatus");
 
-    if (!online) return;
+const type =
+    document.getElementById("connectionType");
 
+const downlink =
+    document.getElementById("downlink");
 
-    online.textContent =
-        navigator.onLine ? "🟢 Online" : "🔴 Offline";
-
-
-    const connection =
-        navigator.connection ||
-        navigator.mozConnection ||
-        navigator.webkitConnection;
+const rtt =
+    document.getElementById("rtt");
 
 
-    if (connection) {
-
-        type.textContent =
-            connection.effectiveType || "Unknown";
-
-        downlink.textContent =
-            connection.downlink
-                ? connection.downlink + " Mbps"
-                : "Unknown";
-
-        rtt.textContent =
-            connection.rtt
-                ? connection.rtt + " ms"
-                : "Unknown";
-
-    } else {
-
-        type.textContent = "Not supported";
-        downlink.textContent = "Not supported";
-        rtt.textContent = "Not supported";
-
-    }
+if (!online) return;
 
 
-    updateSummary();
+online.textContent =
+    navigator.onLine
+        ? "🟢 Online"
+        : "🔴 Offline";
+
+
+const connection =
+    navigator.connection ||
+    navigator.mozConnection ||
+    navigator.webkitConnection;
+
+
+if (connection) {
+
+    type.textContent =
+        connection.effectiveType ||
+        "Unknown";
+
+
+    downlink.textContent =
+        connection.downlink
+            ? connection.downlink + " Mbps"
+            : "Unknown";
+
+
+    rtt.textContent =
+        connection.rtt
+            ? connection.rtt + " ms"
+            : "Unknown";
+
+} else {
+
+    type.textContent =
+        "Not supported";
+
+    downlink.textContent =
+        "Not supported";
+
+    rtt.textContent =
+        "Not supported";
 
 }
 
+
+updateSummary();
+```
+
+}
 
 // ========================================
 // LATENCY TEST
@@ -85,52 +105,56 @@ function showConnectionInfo() {
 
 async function testLatency() {
 
-    const result =
-        document.getElementById("latencyResult");
+```
+const result =
+    document.getElementById("latencyResult");
 
-    if (!result) return;
-
-
-    result.textContent =
-        "🔄 Testing connection...";
+if (!result) return;
 
 
-    const start = performance.now();
+result.textContent =
+    "🔄 Testing connection...";
 
 
-    try {
-
-        await fetch(
-            window.location.href,
-            {
-                method: "HEAD",
-                cache: "no-store"
-            }
-        );
+const start =
+    performance.now();
 
 
-        const end = performance.now();
+try {
 
-        const latency =
-            Math.round(end - start);
-
-
-        result.innerHTML =
-            `🟢 Response Time: <strong>${latency} ms</strong>`;
-
-
-        updateSummary();
+    await fetch(
+        window.location.href,
+        {
+            method: "HEAD",
+            cache: "no-store"
+        }
+    );
 
 
-    } catch (error) {
+    const end =
+        performance.now();
 
-        result.innerHTML =
-            "🔴 Connection test failed.";
 
-    }
+    const latency =
+        Math.round(end - start);
+
+
+    result.innerHTML =
+        `🟢 Response Time: <strong>${latency} ms</strong>`;
+
+
+    updateSummary();
+
+
+} catch (error) {
+
+    result.innerHTML =
+        "🔴 Connection test failed.";
 
 }
+```
 
+}
 
 // ========================================
 // NETWORK SUMMARY
@@ -138,67 +162,78 @@ async function testLatency() {
 
 function updateSummary() {
 
-    const summary =
-        document.getElementById("summary");
+```
+const summary =
+    document.getElementById("summary");
 
-    if (!summary) return;
-
-
-    const connection =
-        navigator.connection ||
-        navigator.mozConnection ||
-        navigator.webkitConnection;
+if (!summary) return;
 
 
-    let type = "Unknown";
-    let downlink = "Unknown";
-    let rtt = "Unknown";
+const connection =
+    navigator.connection ||
+    navigator.mozConnection ||
+    navigator.webkitConnection;
 
 
-    if (connection) {
+let type =
+    "Unknown";
 
-        type =
-            connection.effectiveType || "Unknown";
+let downlink =
+    "Unknown";
 
-        downlink =
-            connection.downlink
-                ? connection.downlink + " Mbps"
-                : "Unknown";
-
-        rtt =
-            connection.rtt
-                ? connection.rtt + " ms"
-                : "Unknown";
-
-    }
+let rtt =
+    "Unknown";
 
 
-    summary.innerHTML = `
+if (connection) {
 
-        <p>
-            <strong>Internet:</strong>
-            ${navigator.onLine ? "🟢 Online" : "🔴 Offline"}
-        </p>
+    type =
+        connection.effectiveType ||
+        "Unknown";
 
-        <p>
-            <strong>Connection:</strong>
-            ${type}
-        </p>
 
-        <p>
-            <strong>Downlink:</strong>
-            ${downlink}
-        </p>
+    downlink =
+        connection.downlink
+            ? connection.downlink + " Mbps"
+            : "Unknown";
 
-        <p>
-            <strong>RTT:</strong>
-            ${rtt}
-        </p>
 
-    `;
+    rtt =
+        connection.rtt
+            ? connection.rtt + " ms"
+            : "Unknown";
 
 }
 
+
+summary.innerHTML = `
+
+    <p>
+        <strong>Internet:</strong>
+        ${navigator.onLine
+            ? "🟢 Online"
+            : "🔴 Offline"}
+    </p>
+
+    <p>
+        <strong>Connection:</strong>
+        ${type}
+    </p>
+
+    <p>
+        <strong>Downlink:</strong>
+        ${downlink}
+    </p>
+
+    <p>
+        <strong>RTT:</strong>
+        ${rtt}
+    </p>
+
+`;
+```
+
+}
 
 // ========================================
 // COPY SUMMARY
@@ -206,90 +241,90 @@ function updateSummary() {
 
 function copySummary() {
 
-    const summary =
-        document.getElementById("summary");
+```
+const summary =
+    document.getElementById("summary");
 
-    if (!summary) return;
-
-
-    const text =
-        summary.innerText;
+if (!summary) return;
 
 
-    navigator.clipboard.writeText(text)
-        .then(() => {
+const text =
+    summary.innerText;
 
-            alert("✅ Network information berhasil disalin.");
 
-        })
-        .catch(() => {
+navigator.clipboard.writeText(text)
 
-            alert("❌ Gagal menyalin informasi.");
+    .then(() => {
 
-        });
+        alert(
+            "✅ Network information berhasil disalin."
+        );
+
+    })
+
+    .catch(() => {
+
+        alert(
+            "❌ Gagal menyalin informasi."
+        );
+
+    });
+```
 
 }
 
-
-// ========================================
-// INITIALIZE
-// ========================================
-
-checkInternet();
-
-showConnectionInfo();
-
-
-// Update when internet status changes
-
-window.addEventListener(
-    "online",
-    checkInternet
-);
-
-
-window.addEventListener(
-    "offline",
-    checkInternet
-);
 // ========================================
 // PUBLIC IP
 // ========================================
 
 async function getPublicIP() {
 
-    const result =
-        document.getElementById("publicIP");
+```
+const result =
+    document.getElementById("publicIP");
 
-    if (!result) return;
+if (!result) return;
+
+
+result.innerHTML =
+    "🔄 Mengambil Public IP...";
+
+
+try {
+
+    const response =
+        await fetch(
+            "https://api.ipify.org?format=json"
+        );
+
+
+    const data =
+        await response.json();
+
+
+    result.innerHTML = `
+
+        🟢 Public IP:<br>
+
+        <strong>
+            ${data.ip}
+        </strong>
+
+    `;
+
+
+    updateSummary();
+
+
+} catch (error) {
 
     result.innerHTML =
-        "🔄 Mengambil Public IP...";
-
-    try {
-
-        const response =
-            await fetch("https://api.ipify.org?format=json");
-
-        const data =
-            await response.json();
-
-        result.innerHTML = `
-            🟢 Public IP:<br>
-            <strong>${data.ip}</strong>
-        `;
-
-        updateSummary();
-
-    } catch (error) {
-
-        result.innerHTML =
-            "🔴 Gagal mendapatkan Public IP.";
-
-    }
+        "🔴 Gagal mendapatkan Public IP.";
 
 }
+```
 
+}
 
 // ========================================
 // DNS LOOKUP
@@ -297,90 +332,118 @@ async function getPublicIP() {
 
 async function dnsLookup() {
 
-    const input =
-        document.getElementById("dnsHost");
+```
+const input =
+    document.getElementById("dnsHost");
 
-    const result =
-        document.getElementById("dnsResult");
+const result =
+    document.getElementById("dnsResult");
 
-    if (!input || !result) return;
 
-    const domain =
-        input.value.trim();
+if (!input || !result) return;
 
-    if (!domain) {
 
-        result.innerHTML =
-            "⚠️ Masukkan domain terlebih dahulu.";
+const domain =
+    input.value.trim();
 
-        return;
 
-    }
+if (!domain) {
 
     result.innerHTML =
-        "🔄 Mencari DNS...";
+        "⚠️ Masukkan domain terlebih dahulu.";
+
+    return;
+
+}
 
 
-    try {
-
-        const response =
-            await fetch(
-                `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=A`
-            );
-
-        const data =
-            await response.json();
+result.innerHTML =
+    "🔄 Mencari DNS...";
 
 
-        if (
-            data.Answer &&
-            data.Answer.length > 0
-        ) {
+try {
 
-            const records =
-                data.Answer
-                    .map(record =>
+    const response =
+        await fetch(
+
+            `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=A`
+
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if (
+        data.Answer &&
+        data.Answer.length > 0
+    ) {
+
+        const records =
+            data.Answer
+
+                .map(
+                    record =>
                         record.data
-                    )
-                    .join("<br>");
+                )
+
+                .join("<br>");
 
 
-            result.innerHTML = `
-                🟢 DNS ditemukan<br><br>
-                <strong>${domain}</strong><br><br>
-                ${records}
-            `;
+        result.innerHTML = `
 
-        } else {
+            🟢 DNS ditemukan
 
-            result.innerHTML =
-                "🟡 Tidak ditemukan DNS A record.";
+            <br><br>
 
-        }
+            <strong>
+                ${domain}
+            </strong>
 
-    } catch (error) {
+            <br><br>
+
+            ${records}
+
+        `;
+
+    } else {
 
         result.innerHTML =
-            "🔴 DNS Lookup gagal.";
+            "🟡 Tidak ditemukan DNS A record.";
 
     }
 
+
+} catch (error) {
+
+    result.innerHTML =
+        "🔴 DNS Lookup gagal.";
+
 }
+```
+
+}
+
 // ========================================
 // PING TOOL
 // ========================================
 
 function setPingTarget(host) {
 
-    const input =
-        document.getElementById("pingHost");
+```
+const input =
+    document.getElementById("pingHost");
 
-    if (!input) return;
 
-    input.value = host;
+if (!input) return;
+
+
+input.value =
+    host;
+```
 
 }
-
 
 // ========================================
 // CHECK LOCAL AGENT
@@ -388,52 +451,60 @@ function setPingTarget(host) {
 
 async function checkAgent() {
 
-    const status =
-        document.getElementById("agentStatus");
-
-    if (!status) return;
-
-
-    status.innerHTML =
-        "🔄 Checking Local Agent...";
+```
+const status =
+    document.getElementById("agentStatus");
 
 
-    try {
-
-        const response =
-            await fetch(
-                "http://127.0.0.1:8765/status",
-                {
-                    method: "GET"
-                }
-            );
+if (!status) return;
 
 
-        if (response.ok) {
-
-            status.innerHTML =
-                "🟢 <strong>Local Agent Online</strong>";
-
-        } else {
-
-            status.innerHTML =
-                "🟡 Local Agent memberikan response.";
-
-        }
+status.innerHTML =
+    "🔄 Checking Local Agent...";
 
 
-    } catch (error) {
+try {
 
-        status.innerHTML = `
-            🔴 <strong>Local Agent Offline</strong>
-            <br><br>
-            Agent belum berjalan di PC.
-        `;
+    const response =
+        await fetch(
+            "http://127.0.0.1:8765/status",
+            {
+                method: "GET"
+            }
+        );
+
+
+    if (response.ok) {
+
+        status.innerHTML =
+            "🟢 <strong>Local Agent Online</strong>";
+
+    } else {
+
+        status.innerHTML =
+            "🟡 Local Agent memberikan response.";
 
     }
 
-}
 
+} catch (error) {
+
+    status.innerHTML = `
+
+        🔴 <strong>
+            Local Agent Offline
+        </strong>
+
+        <br><br>
+
+        Agent belum berjalan di PC.
+
+    `;
+
+}
+```
+
+}
 
 // ========================================
 // START PING
@@ -445,15 +516,19 @@ async function startPing() {
 const input =
     document.getElementById("pingHost");
 
+
 const packet =
     document.getElementById("packetCount");
+
 
 const result =
     document.getElementById("pingResult");
 
 
 if (!input || !packet || !result) {
+
     return;
+
 }
 
 
@@ -471,14 +546,19 @@ if (!host) {
         "⚠️ Masukkan IP Address atau hostname.";
 
     return;
+
 }
 
 
 result.innerHTML = `
+
     🔄 <strong>Menjalankan ping...</strong>
+
     <br><br>
+
     Target:
     <strong>${host}</strong>
+
 `;
 
 
@@ -488,17 +568,26 @@ try {
         await fetch(
             "http://127.0.0.1:8765/ping",
             {
+
                 method: "POST",
 
                 headers: {
+
                     "Content-Type":
                         "application/json"
+
                 },
 
                 body: JSON.stringify({
-                    host: host,
-                    count: count
+
+                    host:
+                        host,
+
+                    count:
+                        count
+
                 })
+
             }
         );
 
@@ -515,39 +604,62 @@ try {
 
         result.innerHTML = `
 
-            🔴 <strong>HOST OFFLINE</strong>
+            🔴 <strong>
+                HOST OFFLINE
+            </strong>
 
             <br><br>
 
-            <strong>Target</strong>
+            <strong>
+                Target
+            </strong>
+
             <br>
+
             ${data.host || host}
 
             <br><br>
 
-            <strong>Packets</strong>
+            <strong>
+                Packets
+            </strong>
+
             <br>
-            Sent : ${data.sent ?? count}
+
+            Sent :
+            ${data.sent ?? count}
+
             <br>
-            Received : ${data.received ?? 0}
+
+            Received :
+            ${data.received ?? 0}
+
             <br>
-            Lost : ${data.lost ?? count}
+
+            Lost :
+            ${data.lost ?? count}
+
             (${data.loss ?? 100}%)
 
             <br><br>
 
-            <strong>Status</strong>
+            <strong>
+                Status
+            </strong>
+
             <br>
+
             🔴 Connection Failed
 
         `;
 
         return;
+
     }
 
 
     // ========================================
-    // STATUS TEXT
+    // STATUS
     // ========================================
 
     let statusText =
@@ -576,50 +688,84 @@ try {
 
     result.innerHTML = `
 
-        🟢 <strong>HOST ONLINE</strong>
+        🟢 <strong>
+            HOST ONLINE
+        </strong>
 
         <br><br>
 
-        <strong>Target</strong>
+        <strong>
+            Target
+        </strong>
+
         <br>
+
         ${data.host}
 
         <br><br>
 
-        <strong>Packets</strong>
+        <strong>
+            Packets
+        </strong>
+
         <br>
-        Sent : ${data.sent}
+
+        Sent :
+        ${data.sent}
+
         <br>
-        Received : ${data.received}
+
+        Received :
+        ${data.received}
+
         <br>
-        Lost : ${data.lost}
+
+        Lost :
+        ${data.lost}
+
         (${data.loss}%)
 
         <br><br>
 
-        <strong>Latency</strong>
+        <strong>
+            Latency
+        </strong>
+
         <br>
-        Minimum : ${data.min ?? "-"} ms
+
+        Minimum :
+        ${data.min ?? "-"} ms
+
         <br>
-        Maximum : ${data.max ?? "-"} ms
+
+        Maximum :
+        ${data.max ?? "-"} ms
+
         <br>
-        Average : ${data.avg ?? "-"} ms
+
+        Average :
+        ${data.avg ?? "-"} ms
 
         <br><br>
 
-        <strong>Status</strong>
+        <strong>
+            Status
+        </strong>
+
         <br>
+
         ${statusText}
 
     `;
 
-}
 
-catch (error) {
+} catch (error) {
 
     result.innerHTML = `
 
-        🔴 <strong>Local Agent tidak tersedia.</strong>
+        🔴 <strong>
+            Local Agent tidak tersedia.
+        </strong>
 
         <br><br>
 
@@ -632,3 +778,21 @@ catch (error) {
 ```
 
 }
+
+// ========================================
+// INITIALIZE
+// ========================================
+
+checkInternet();
+
+showConnectionInfo();
+
+window.addEventListener(
+"online",
+checkInternet
+);
+
+window.addEventListener(
+"offline",
+checkInternet
+);
