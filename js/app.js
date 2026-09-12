@@ -1,84 +1,254 @@
 console.log("IT Support Toolkit loaded successfully.");
 
 
-// ================================
-// DASHBOARD MENU
-// ================================
+// ========================================
+// INTERNET STATUS
+// ========================================
 
-document.querySelectorAll(".card").forEach(card => {
+function checkInternet() {
 
-    card.addEventListener("click", function(event) {
+    const status = document.getElementById("internetStatus");
 
-        // Jangan menjalankan menu ketika tombol/input diklik
-        if (
-            event.target.tagName === "BUTTON" ||
-            event.target.tagName === "INPUT"
-        ) {
-            return;
-        }
+    if (!status) return;
 
-        const title = card.querySelector("h2");
+    if (navigator.onLine) {
 
-        if (!title) return;
+        status.innerHTML =
+            "🟢 <strong>ONLINE</strong><br>Internet connection detected.";
 
-        console.log("Module:", title.textContent);
+    } else {
 
-    });
+        status.innerHTML =
+            "🔴 <strong>OFFLINE</strong><br>No internet connection detected.";
 
-});
-
-
-// ================================
-// PING INFORMATION
-// ================================
-
-function pingInfo() {
-
-    const host = document.getElementById("host");
-    const result = document.getElementById("result");
-
-    if (!host || !result) return;
-
-    const address = host.value.trim();
-
-    if (address === "") {
-
-        result.innerHTML =
-            "⚠️ Masukkan IP Address atau hostname terlebih dahulu.";
-
-        return;
     }
 
-    result.innerHTML = `
-        <strong>🔍 Target:</strong> ${address}<br><br>
-        ⚠️ Browser tidak dapat menjalankan
-        perintah ping Windows secara langsung.
-        <br><br>
-        Untuk ping sebenarnya, kita akan membuat
-        <strong>Local IT Support Agent</strong> pada tahap berikutnya.
-    `;
 }
 
 
-// ================================
-// NETWORK INFORMATION
-// ================================
+// ========================================
+// CONNECTION INFORMATION
+// ========================================
 
-function showNetworkInfo() {
+function showConnectionInfo() {
 
-    const info = document.getElementById("networkInfo");
+    const online = document.getElementById("onlineStatus");
+    const type = document.getElementById("connectionType");
+    const downlink = document.getElementById("downlink");
+    const rtt = document.getElementById("rtt");
 
-    if (!info) return;
+    if (!online) return;
 
-    info.innerHTML = `
-        <strong>Browser Network Information</strong><br><br>
 
-        Online Status:
-        ${navigator.onLine ? "🟢 Online" : "🔴 Offline"}
+    online.textContent =
+        navigator.onLine ? "🟢 Online" : "🔴 Offline";
 
-        <br><br>
 
-        Browser:
-        ${navigator.userAgent}
-    `;
+    const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+
+    if (connection) {
+
+        type.textContent =
+            connection.effectiveType || "Unknown";
+
+        downlink.textContent =
+            connection.downlink
+                ? connection.downlink + " Mbps"
+                : "Unknown";
+
+        rtt.textContent =
+            connection.rtt
+                ? connection.rtt + " ms"
+                : "Unknown";
+
+    } else {
+
+        type.textContent = "Not supported";
+        downlink.textContent = "Not supported";
+        rtt.textContent = "Not supported";
+
+    }
+
+
+    updateSummary();
+
 }
+
+
+// ========================================
+// LATENCY TEST
+// ========================================
+
+async function testLatency() {
+
+    const result =
+        document.getElementById("latencyResult");
+
+    if (!result) return;
+
+
+    result.textContent =
+        "🔄 Testing connection...";
+
+
+    const start = performance.now();
+
+
+    try {
+
+        await fetch(
+            window.location.href,
+            {
+                method: "HEAD",
+                cache: "no-store"
+            }
+        );
+
+
+        const end = performance.now();
+
+        const latency =
+            Math.round(end - start);
+
+
+        result.innerHTML =
+            `🟢 Response Time: <strong>${latency} ms</strong>`;
+
+
+        updateSummary();
+
+
+    } catch (error) {
+
+        result.innerHTML =
+            "🔴 Connection test failed.";
+
+    }
+
+}
+
+
+// ========================================
+// NETWORK SUMMARY
+// ========================================
+
+function updateSummary() {
+
+    const summary =
+        document.getElementById("summary");
+
+    if (!summary) return;
+
+
+    const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+
+    let type = "Unknown";
+    let downlink = "Unknown";
+    let rtt = "Unknown";
+
+
+    if (connection) {
+
+        type =
+            connection.effectiveType || "Unknown";
+
+        downlink =
+            connection.downlink
+                ? connection.downlink + " Mbps"
+                : "Unknown";
+
+        rtt =
+            connection.rtt
+                ? connection.rtt + " ms"
+                : "Unknown";
+
+    }
+
+
+    summary.innerHTML = `
+
+        <p>
+            <strong>Internet:</strong>
+            ${navigator.onLine ? "🟢 Online" : "🔴 Offline"}
+        </p>
+
+        <p>
+            <strong>Connection:</strong>
+            ${type}
+        </p>
+
+        <p>
+            <strong>Downlink:</strong>
+            ${downlink}
+        </p>
+
+        <p>
+            <strong>RTT:</strong>
+            ${rtt}
+        </p>
+
+    `;
+
+}
+
+
+// ========================================
+// COPY SUMMARY
+// ========================================
+
+function copySummary() {
+
+    const summary =
+        document.getElementById("summary");
+
+    if (!summary) return;
+
+
+    const text =
+        summary.innerText;
+
+
+    navigator.clipboard.writeText(text)
+        .then(() => {
+
+            alert("✅ Network information berhasil disalin.");
+
+        })
+        .catch(() => {
+
+            alert("❌ Gagal menyalin informasi.");
+
+        });
+
+}
+
+
+// ========================================
+// INITIALIZE
+// ========================================
+
+checkInternet();
+
+showConnectionInfo();
+
+
+// Update when internet status changes
+
+window.addEventListener(
+    "online",
+    checkInternet
+);
+
+
+window.addEventListener(
+    "offline",
+    checkInternet
+);
