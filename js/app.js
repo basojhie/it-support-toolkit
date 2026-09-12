@@ -252,3 +252,117 @@ window.addEventListener(
     "offline",
     checkInternet
 );
+// ========================================
+// PUBLIC IP
+// ========================================
+
+async function getPublicIP() {
+
+    const result =
+        document.getElementById("publicIP");
+
+    if (!result) return;
+
+    result.innerHTML =
+        "🔄 Mengambil Public IP...";
+
+    try {
+
+        const response =
+            await fetch("https://api.ipify.org?format=json");
+
+        const data =
+            await response.json();
+
+        result.innerHTML = `
+            🟢 Public IP:<br>
+            <strong>${data.ip}</strong>
+        `;
+
+        updateSummary();
+
+    } catch (error) {
+
+        result.innerHTML =
+            "🔴 Gagal mendapatkan Public IP.";
+
+    }
+
+}
+
+
+// ========================================
+// DNS LOOKUP
+// ========================================
+
+async function dnsLookup() {
+
+    const input =
+        document.getElementById("dnsHost");
+
+    const result =
+        document.getElementById("dnsResult");
+
+    if (!input || !result) return;
+
+    const domain =
+        input.value.trim();
+
+    if (!domain) {
+
+        result.innerHTML =
+            "⚠️ Masukkan domain terlebih dahulu.";
+
+        return;
+
+    }
+
+    result.innerHTML =
+        "🔄 Mencari DNS...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=A`
+            );
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.Answer &&
+            data.Answer.length > 0
+        ) {
+
+            const records =
+                data.Answer
+                    .map(record =>
+                        record.data
+                    )
+                    .join("<br>");
+
+
+            result.innerHTML = `
+                🟢 DNS ditemukan<br><br>
+                <strong>${domain}</strong><br><br>
+                ${records}
+            `;
+
+        } else {
+
+            result.innerHTML =
+                "🟡 Tidak ditemukan DNS A record.";
+
+        }
+
+    } catch (error) {
+
+        result.innerHTML =
+            "🔴 DNS Lookup gagal.";
+
+    }
+
+}
