@@ -441,117 +441,194 @@ async function checkAgent() {
 
 async function startPing() {
 
-    const input =
-        document.getElementById("pingHost");
+```
+const input =
+    document.getElementById("pingHost");
 
-    const packet =
-        document.getElementById("packetCount");
+const packet =
+    document.getElementById("packetCount");
 
-    const result =
-        document.getElementById("pingResult");
-
-
-    if (!input || !packet || !result) return;
+const result =
+    document.getElementById("pingResult");
 
 
-    const host =
-        input.value.trim();
+if (!input || !packet || !result) {
+    return;
+}
 
 
-    const count =
-        packet.value;
+const host =
+    input.value.trim();
 
 
-    if (!host) {
-
-        result.innerHTML =
-            "⚠️ Masukkan IP Address atau hostname.";
-
-        return;
-
-    }
+const count =
+    Number(packet.value);
 
 
-    result.innerHTML = `
-        🔄 Menjalankan ping...
-        <br><br>
-        Target:
-        <strong>${host}</strong>
-    `;
+if (!host) {
+
+    result.innerHTML =
+        "⚠️ Masukkan IP Address atau hostname.";
+
+    return;
+}
 
 
-    try {
-
-        const response =
-            await fetch(
-                "http://127.0.0.1:8765/ping",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        host: host,
-                        count: Number(count)
-                    })
-
-                }
-            );
+result.innerHTML = `
+    🔄 <strong>Menjalankan ping...</strong>
+    <br><br>
+    Target:
+    <strong>${host}</strong>
+`;
 
 
-        const data =
-            await response.json();
+try {
+
+    const response =
+        await fetch(
+            "http://127.0.0.1:8765/ping",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    host: host,
+                    count: count
+                })
+            }
+        );
 
 
-        if (data.success) {
-
-            result.innerHTML = `
-
-                🟢 <strong>HOST ONLINE</strong>
-
-                <br><br>
-
-                Target:
-                <strong>${host}</strong>
-
-                <br>
-
-                Response:
-                ${data.output}
-
-            `;
-
-        } else {
-
-            result.innerHTML = `
-
-                🔴 <strong>HOST OFFLINE</strong>
-
-                <br><br>
-
-                ${data.output || "Ping gagal."}
-
-            `;
-
-        }
+    const data =
+        await response.json();
 
 
-    } catch (error) {
+    // ========================================
+    // HOST OFFLINE
+    // ========================================
+
+    if (!data.success) {
 
         result.innerHTML = `
 
-            🔴 <strong>Local Agent tidak tersedia.</strong>
+            🔴 <strong>HOST OFFLINE</strong>
 
             <br><br>
 
-            Jalankan IT Support Local Agent
-            pada komputer terlebih dahulu.
+            <strong>Target</strong>
+            <br>
+            ${data.host || host}
+
+            <br><br>
+
+            <strong>Packets</strong>
+            <br>
+            Sent : ${data.sent ?? count}
+            <br>
+            Received : ${data.received ?? 0}
+            <br>
+            Lost : ${data.lost ?? count}
+            (${data.loss ?? 100}%)
+
+            <br><br>
+
+            <strong>Status</strong>
+            <br>
+            🔴 Connection Failed
 
         `;
 
+        return;
     }
+
+
+    // ========================================
+    // STATUS TEXT
+    // ========================================
+
+    let statusText =
+        "🟢 Connection Good";
+
+
+    if (data.status === "warning") {
+
+        statusText =
+            "🟡 Connection Warning";
+
+    }
+
+
+    if (data.status === "unstable") {
+
+        statusText =
+            "🟠 Connection Unstable";
+
+    }
+
+
+    // ========================================
+    // RESULT
+    // ========================================
+
+    result.innerHTML = `
+
+        🟢 <strong>HOST ONLINE</strong>
+
+        <br><br>
+
+        <strong>Target</strong>
+        <br>
+        ${data.host}
+
+        <br><br>
+
+        <strong>Packets</strong>
+        <br>
+        Sent : ${data.sent}
+        <br>
+        Received : ${data.received}
+        <br>
+        Lost : ${data.lost}
+        (${data.loss}%)
+
+        <br><br>
+
+        <strong>Latency</strong>
+        <br>
+        Minimum : ${data.min ?? "-"} ms
+        <br>
+        Maximum : ${data.max ?? "-"} ms
+        <br>
+        Average : ${data.avg ?? "-"} ms
+
+        <br><br>
+
+        <strong>Status</strong>
+        <br>
+        ${statusText}
+
+    `;
+
+}
+
+catch (error) {
+
+    result.innerHTML = `
+
+        🔴 <strong>Local Agent tidak tersedia.</strong>
+
+        <br><br>
+
+        Pastikan IT Support Local Agent
+        sedang berjalan pada komputer.
+
+    `;
+
+}
+```
 
 }
