@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Network Tools - IT Support Toolkit</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>🌐 Network Tools</h1>
+    <p>IT Support Network Diagnostic</p>
+</header>
+
+<main class="dashboard">
+
+    <div class="card">
+        <div class="icon">📡</div>
+        <h2>Ping Test</h2>
+
+        <p>Masukkan alamat IP atau hostname.</p>
+
+        <input
+            type="text"
+            id="host"
+            placeholder="Contoh: 192.168.1.1"
+            style="width:100%; padding:12px; margin:15px 0;"
+        >
+
+        <button onclick="pingInfo()">
+            🔍 Test
+        </button>
+
+        <div id="result" style="margin-top:15px;"></div>
+    </div>
+
+
+    <div class="card">
+        <div class="icon">🌍</div>
+
+        <h2>Network Information</h2>
+
+        <p>
+            Gunakan halaman ini untuk melihat informasi
+            koneksi jaringan dari perangkat.
+        </p>
+
+        <button onclick="showNetworkInfo()">
+            📋 Show Information
+        </button>
+
+        <div id="networkInfo" style="margin-top:15px;"></div>
+    </div>
+
+
+    <div class="card">
+        <div class="icon">⬅️</div>
+
+        <h2>Back to Dashboard</h2>
+
+        <p>Kembali ke halaman utama.</p>
+
+        <button onclick="location.href='index.html'">
+            🏠 Dashboard
+        </button>
+    </div>
+
+</main>
+
+<footer>
+    <p>IT Support Toolkit v1.0</p>
+</footer>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>
