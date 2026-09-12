@@ -366,3 +366,192 @@ async function dnsLookup() {
     }
 
 }
+// ========================================
+// PING TOOL
+// ========================================
+
+function setPingTarget(host) {
+
+    const input =
+        document.getElementById("pingHost");
+
+    if (!input) return;
+
+    input.value = host;
+
+}
+
+
+// ========================================
+// CHECK LOCAL AGENT
+// ========================================
+
+async function checkAgent() {
+
+    const status =
+        document.getElementById("agentStatus");
+
+    if (!status) return;
+
+
+    status.innerHTML =
+        "🔄 Checking Local Agent...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8765/status",
+                {
+                    method: "GET"
+                }
+            );
+
+
+        if (response.ok) {
+
+            status.innerHTML =
+                "🟢 <strong>Local Agent Online</strong>";
+
+        } else {
+
+            status.innerHTML =
+                "🟡 Local Agent memberikan response.";
+
+        }
+
+
+    } catch (error) {
+
+        status.innerHTML = `
+            🔴 <strong>Local Agent Offline</strong>
+            <br><br>
+            Agent belum berjalan di PC.
+        `;
+
+    }
+
+}
+
+
+// ========================================
+// START PING
+// ========================================
+
+async function startPing() {
+
+    const input =
+        document.getElementById("pingHost");
+
+    const packet =
+        document.getElementById("packetCount");
+
+    const result =
+        document.getElementById("pingResult");
+
+
+    if (!input || !packet || !result) return;
+
+
+    const host =
+        input.value.trim();
+
+
+    const count =
+        packet.value;
+
+
+    if (!host) {
+
+        result.innerHTML =
+            "⚠️ Masukkan IP Address atau hostname.";
+
+        return;
+
+    }
+
+
+    result.innerHTML = `
+        🔄 Menjalankan ping...
+        <br><br>
+        Target:
+        <strong>${host}</strong>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8765/ping",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        host: host,
+                        count: Number(count)
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+
+            result.innerHTML = `
+
+                🟢 <strong>HOST ONLINE</strong>
+
+                <br><br>
+
+                Target:
+                <strong>${host}</strong>
+
+                <br>
+
+                Response:
+                ${data.output}
+
+            `;
+
+        } else {
+
+            result.innerHTML = `
+
+                🔴 <strong>HOST OFFLINE</strong>
+
+                <br><br>
+
+                ${data.output || "Ping gagal."}
+
+            `;
+
+        }
+
+
+    } catch (error) {
+
+        result.innerHTML = `
+
+            🔴 <strong>Local Agent tidak tersedia.</strong>
+
+            <br><br>
+
+            Jalankan IT Support Local Agent
+            pada komputer terlebih dahulu.
+
+        `;
+
+    }
+
+}
