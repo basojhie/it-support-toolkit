@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ping Test - IT Support Toolkit</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>🔍 Ping Test</h1>
+
+    <p>
+        IT Support Network Diagnostic
+    </p>
+
+</header>
+
+
+
+<main class="dashboard">
+
+
+    <!-- PING TEST -->
+
+    <div class="card">
+
+        <div class="icon">
+            📡
+        </div>
+
+        <h2>
+            Ping Host
+        </h2>
+
+        <p>
+            Masukkan IP Address atau hostname.
+        </p>
+
+
+        <input
+            type="text"
+            id="pingHost"
+            placeholder="Contoh: 192.168.42.101"
+            style="
+                width:100%;
+                padding:12px;
+                margin:15px 0;
+            "
+        >
+
+
+        <label>
+            Jumlah packet
+        </label>
+
+
+        <select
+            id="packetCount"
+            style="
+                width:100%;
+                padding:12px;
+                margin:10px 0 15px;
+            "
+        >
+
+            <option value="4">
+                4 Packet
+            </option>
+
+            <option value="10">
+                10 Packet
+            </option>
+
+            <option value="20">
+                20 Packet
+            </option>
+
+        </select>
+
+
+        <button
+            onclick="startPing()"
+        >
+            🔍 Start Ping
+        </button>
+
+
+        <div
+            id="pingResult"
+            class="result-box"
+            style="margin-top:20px;"
+        >
+
+            Belum ada pengujian.
+
+        </div>
+
+    </div>
+
+
+
+    <!-- QUICK TARGET -->
+
+    <div class="card">
+
+        <div class="icon">
+            ⚡
+        </div>
+
+        <h2>
+            Quick Target
+        </h2>
+
+        <p>
+            Pilih target yang sering digunakan.
+        </p>
+
+
+        <button
+            onclick="setPingTarget('192.168.1.1')"
+        >
+            🌐 Gateway
+        </button>
+
+
+        <br><br>
+
+
+        <button
+            onclick="setPingTarget('8.8.8.8')"
+        >
+            🌍 Google DNS
+        </button>
+
+
+        <br><br>
+
+
+        <button
+            onclick="setPingTarget('1.1.1.1')"
+        >
+            🌍 Cloudflare DNS
+        </button>
+
+    </div>
+
+
+
+    <!-- AGENT STATUS -->
+
+    <div class="card">
+
+        <div class="icon">
+            🖥️
+        </div>
+
+        <h2>
+            Local Agent
+        </h2>
+
+
+        <div
+            id="agentStatus"
+            class="status-box"
+        >
+
+            🔄 Checking Local Agent...
+
+        </div>
+
+
+        <button
+            onclick="checkAgent()"
+        >
+            🔄 Check Agent
+        </button>
+
+    </div>
+
+
+
+    <!-- BACK -->
+
+    <div class="card">
+
+        <div class="icon">
+            ⬅️
+        </div>
+
+        <h2>
+            Back to Network
+        </h2>
+
+        <p>
+            Kembali ke Network Tools.
+        </p>
+
+
+        <button
+            onclick="location.href='network.html'"
+        >
+            🌐 Network Tools
+        </button>
+
+    </div>
+
+
+</main>
+
+
+
+<footer>
+
+    <p>
+        IT Support Toolkit v1.3
+    </p>
+
+</footer>
+
+
+
+<script src="js/app.js"></script>
+
+
+</body>
+
+</html>
